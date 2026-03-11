@@ -3,8 +3,11 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { BsPersonCircle } from "react-icons/bs";
 import styles from "../Styles/login.module.scss";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   return (
     <Row className="vh-100">
       <Col md="8" className="d-flex justify-content-center align-items-center">
@@ -31,7 +34,13 @@ const Login = () => {
           </span>
           <br />
           <div class="d-grid gap-2 mt-2">
-            <Button>Register New Account</Button>
+            <Button
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+              Register New Account
+            </Button>
           </div>
         </div>
       </Col>
