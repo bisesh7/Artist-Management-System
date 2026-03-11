@@ -7,7 +7,7 @@ import classNames from "classnames";
 const Login = () => {
   return (
     <Row className="vh-100">
-      <Col className="d-flex justify-content-center align-items-center">
+      <Col md="8" className="d-flex justify-content-center align-items-center">
         <div
           className={classNames(styles.loginBox, {
             "align-center": true,
@@ -18,20 +18,22 @@ const Login = () => {
             <BsPersonCircle size={32} className="mt-2" />
           </div>
 
-          <span>Artist Management System</span>
+          <span className="mb-2">Artist Management System</span>
           <LoginComponent />
         </div>
       </Col>
-      <Col>
-        <Container>
-          <h2>New Admin Registration</h2>
+      <Col md="3" className="d-flex justify-content-center align-items-center">
+        <div>
+          <h2>New User Registration</h2>
           <span>
-            Access the powerful tools for artist and song collection management.
-            Complete the registration form.
+            Don't have an account? Complete the registration form to get
+            started.
           </span>{" "}
           <br />
-          <Button>Register New Account</Button>
-        </Container>
+          <div class="d-grid gap-2 mt-2">
+            <Button>Register New Account</Button>
+          </div>
+        </div>
       </Col>
     </Row>
   );
