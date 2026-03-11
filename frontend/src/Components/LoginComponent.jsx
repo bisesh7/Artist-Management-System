@@ -1,5 +1,8 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import classNames from "classnames";
+import styles from "../Styles/login.module.scss";
+
 const LoginComponent = () => {
   return (
     <div>
@@ -14,7 +17,7 @@ const LoginComponent = () => {
           <Button variant="primary">Login</Button>
         </div>
         <div className="d-flex justify-content-end">
-          <span className="ml-auto">Forgot Password</span>
+          <span className={styles.link}>Forgot Password</span>
         </div>
       </Form>
     </div>

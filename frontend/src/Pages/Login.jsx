@@ -15,7 +15,7 @@ const Login = () => {
         >
           <div className="d-flex">
             <h1>AMS</h1>
-            <BsPersonCircle size={32} className="mt-2" />
+            <BsPersonCircle size={32} className="mt-2 ms-2" />
           </div>
 
           <span className="mb-2">Artist Management System</span>
@@ -28,7 +28,7 @@ const Login = () => {
           <span>
             Don't have an account? Complete the registration form to get
             started.
-          </span>{" "}
+          </span>
           <br />
           <div class="d-grid gap-2 mt-2">
             <Button>Register New Account</Button>
