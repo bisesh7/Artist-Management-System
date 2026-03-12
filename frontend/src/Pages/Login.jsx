@@ -1,7 +1,7 @@
 import LoginComponent from "../Components/LoginComponent";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { BsPersonCircle } from "react-icons/bs";
-import styles from "../Styles/login.module.scss";
+import styles from "../Styles/auth.module.scss";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 

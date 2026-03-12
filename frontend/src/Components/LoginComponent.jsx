@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import classNames from "classnames";
-import styles from "../Styles/login.module.scss";
+import styles from "../Styles/auth.module.scss";
 
 const LoginComponent = () => {
   return (
