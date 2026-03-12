@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import styles from "../Styles/auth.module.scss";
 import * as Yup from "yup";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 
 const LoginComponent = () => {
   const validationSchema = Yup.object({
