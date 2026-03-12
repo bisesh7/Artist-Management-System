@@ -1,6 +1,7 @@
 import { Col, Nav, Row } from "react-bootstrap";
 import { FaPencilAlt, FaUsers } from "react-icons/fa";
 import { MdLogout, MdOutlineDashboard } from "react-icons/md";
+import NavbarComponent from "../Components/NavbarComponent";
 
 const Dashboard = () => {
   return (
@@ -27,7 +28,9 @@ const Dashboard = () => {
         </Nav>
       </Col>
 
-      <Col>Dashboard</Col>
+      <Col>
+        <NavbarComponent />
+      </Col>
     </Row>
   );
 };
