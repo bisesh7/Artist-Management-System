@@ -1,4 +1,4 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { BsPersonCircle } from "react-icons/bs";
 import styles from "../Styles/auth.module.scss";
 import classNames from "classnames";

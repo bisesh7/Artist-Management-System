@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { AiOutlineDelete } from "react-icons/ai";
-import { FaEdit, FaUserEdit } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
 import ResponsivePagination from "react-responsive-pagination";
 
 function TableComponent() {
