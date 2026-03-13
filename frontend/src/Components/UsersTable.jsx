@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FaEdit, FaUserEdit } from "react-icons/fa";
 import ResponsivePagination from "react-responsive-pagination";
 
 function TableComponent() {
@@ -20,6 +23,7 @@ function TableComponent() {
             <th>Address</th>
             <th>Created At</th>
             <th>Updated At</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +37,14 @@ function TableComponent() {
             <td>Otto</td>
             <td>Otto</td>
             <td>@mdo</td>
+            <td>
+              <Button variant="outline-primary" size="sm">
+                <FaUserEdit />
+              </Button>
+              <Button variant="outline-danger" size="sm" className="ms-1">
+                <AiOutlineDelete />
+              </Button>
+            </td>
           </tr>
           <tr>
             <td>Bisesh</td>
@@ -44,6 +56,14 @@ function TableComponent() {
             <td>Otto</td>
             <td>Otto</td>
             <td>@mdo</td>
+            <td>
+              <Button variant="outline-primary" size="sm">
+                <FaUserEdit />
+              </Button>
+              <Button variant="outline-danger" size="sm" className="ms-1">
+                <AiOutlineDelete />
+              </Button>
+            </td>
           </tr>
           <tr>
             <td>Bisesh</td>

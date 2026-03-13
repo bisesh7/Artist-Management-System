@@ -13,7 +13,7 @@ const Dashboard = () => {
         <div className="d-flex justify-content-center">
           <span> Artist Management System</span>
         </div>
-        <Nav defaultActiveKey="/home" className="flex-column">
+        <Nav defaultActiveKey="/home" className="flex-column ms-5 mt-3">
           <Nav.Link eventKey="/users">
             <FaUsers />
             &nbsp;Users
