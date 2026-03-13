@@ -5,8 +5,7 @@ import UsersTable from "./UsersTable";
 const UsersComponent = () => {
   return (
     <>
-      <h1>User Management</h1>
-      <span>List of users:</span>
+      <h1 className="my-3">User Management</h1>
 
       <div className="me-3">
         <Row>
