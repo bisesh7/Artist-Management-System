@@ -4,10 +4,15 @@ import Table from "react-bootstrap/Table";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import ResponsivePagination from "react-responsive-pagination";
+import EditArtistModal from "./EditArtistModal";
 
 function TableComponent() {
   const [currentPage, setCurrentPage] = useState(8);
   const totalPages = 20;
+
+  const [showEditArtistModal, setShowEditArtistModal] = useState(false);
+  const handleCloseEditArtistModal = () => setShowEditArtistModal(false);
+  const handleShowEditArtistModal = () => setShowEditArtistModal(true);
 
   return (
     <>
@@ -38,7 +43,11 @@ function TableComponent() {
             <td>Otto</td>
             <td>@mdo</td>
             <td>
-              <Button variant="outline-primary" size="sm">
+              <Button
+                variant="outline-primary"
+                size="sm"
+                onClick={handleShowEditArtistModal}
+              >
                 <FaUserEdit />
               </Button>
               <Button variant="outline-danger" size="sm" className="ms-1">
@@ -86,6 +95,10 @@ function TableComponent() {
           </tr>
         </tbody>
       </Table>
+      <EditArtistModal
+        show={showEditArtistModal}
+        handleClose={handleCloseEditArtistModal}
+      />
       <ResponsivePagination
         current={currentPage}
         total={totalPages}
