@@ -1,13 +1,16 @@
-import { Button, Col, Form, InputGroup, Nav, Row } from "react-bootstrap";
-import { FaPencilAlt, FaSearch, FaUsers } from "react-icons/fa";
+import { Col, Nav, Row } from "react-bootstrap";
+import { FaPencilAlt, FaUsers } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
-import { FaPlus } from "react-icons/fa6";
-import UsersTable from "../Components/UsersTable";
 import styles from "../Styles/nav.module.scss";
 import classNames from "classnames";
 import UsersComponent from "../Components/UsersComponent";
+import { useLocation, useNavigate } from "react-router-dom";
+import ArtistsComponent from "../Components/ArtistsComponent";
 
 const Dashboard = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <Row>
       <Col md="3" className={styles.sideNav}>
@@ -21,6 +24,9 @@ const Dashboard = () => {
               "text-white": true,
             })}
             eventKey="/users"
+            onClick={() => {
+              navigate("/users");
+            }}
           >
             <FaUsers className="ms-5" />
             &nbsp;Users
@@ -29,6 +35,9 @@ const Dashboard = () => {
             className={classNames(styles.navLink, {
               "text-white": true,
             })}
+            onClick={() => {
+              navigate("/artists");
+            }}
             eventKey="/artists"
           >
             <FaPencilAlt className="ms-5" />
@@ -47,7 +56,9 @@ const Dashboard = () => {
       </Col>
 
       <Col>
-        <UsersComponent />
+        {location.pathname === "/dashboard" && <UsersComponent />}
+        {location.pathname === "/users" && <UsersComponent />}
+        {location.pathname === "/artists" && <ArtistsComponent />}
       </Col>
     </Row>
   );
