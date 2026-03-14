@@ -18,6 +18,7 @@ root.render(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/users" element={<Dashboard />} />
         <Route path="/artists" element={<Dashboard />} />
+        <Route path="/music/:artistId" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

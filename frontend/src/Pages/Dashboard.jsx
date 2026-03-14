@@ -4,12 +4,14 @@ import { MdLogout } from "react-icons/md";
 import styles from "../Styles/nav.module.scss";
 import classNames from "classnames";
 import UsersComponent from "../Components/UsersComponent";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ArtistsComponent from "../Components/ArtistsComponent";
+import MusicComponent from "../Components/MusicComponent";
 
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { artistId } = useParams();
 
   return (
     <Row>
@@ -59,6 +61,7 @@ const Dashboard = () => {
         {location.pathname === "/dashboard" && <UsersComponent />}
         {location.pathname === "/users" && <UsersComponent />}
         {location.pathname === "/artists" && <ArtistsComponent />}
+        {artistId && <MusicComponent />}
       </Col>
     </Row>
   );
