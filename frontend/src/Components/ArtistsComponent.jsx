@@ -31,7 +31,7 @@ const ArtistsComponent = () => {
             </div>
             <div>
               <Button>
-                <FaPlus /> Add User{" "}
+                <FaPlus /> Add Artists{" "}
               </Button>
             </div>
           </Col>

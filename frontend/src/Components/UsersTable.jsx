@@ -28,27 +28,8 @@ function TableComponent() {
         </thead>
         <tbody>
           <tr>
-            <td>Bisesh</td>
-            <td>Shakya</td>
             <td>Otto</td>
             <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <Button variant="outline-primary" size="sm">
-                <FaUserEdit />
-              </Button>
-              <Button variant="outline-danger" size="sm" className="ms-1">
-                <AiOutlineDelete />
-              </Button>
-            </td>
-          </tr>
-          <tr>
-            <td>Bisesh</td>
-            <td>Shakya</td>
             <td>Otto</td>
             <td>Otto</td>
             <td>Otto</td>
@@ -66,8 +47,27 @@ function TableComponent() {
             </td>
           </tr>
           <tr>
-            <td>Bisesh</td>
-            <td>Shakya</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>
+              <Button variant="outline-primary" size="sm">
+                <FaUserEdit />
+              </Button>
+              <Button variant="outline-danger" size="sm" className="ms-1">
+                <AiOutlineDelete />
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Otto</td>
+            <td>Otto</td>
             <td>Otto</td>
             <td>Otto</td>
             <td>Otto</td>
