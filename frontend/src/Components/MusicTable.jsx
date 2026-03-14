@@ -4,10 +4,15 @@ import Table from "react-bootstrap/Table";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import ResponsivePagination from "react-responsive-pagination";
+import EditMusicModal from "./EditMusicModal";
 
 function MusicTable() {
   const [currentPage, setCurrentPage] = useState(8);
   const totalPages = 20;
+
+  const [showEditMusicModal, setShowEditMusicModal] = useState(false);
+  const handleCloseEditMusicModal = () => setShowEditMusicModal(false);
+  const handleShowEditMusicModal = () => setShowEditMusicModal(true);
 
   return (
     <>
@@ -32,7 +37,11 @@ function MusicTable() {
             <td>Otto</td>
             <td>@mdo</td>
             <td>
-              <Button variant="outline-primary" size="sm">
+              <Button
+                variant="outline-primary"
+                size="sm"
+                onClick={handleShowEditMusicModal}
+              >
                 <FaUserEdit />
               </Button>
               <Button variant="outline-danger" size="sm" className="ms-1">
@@ -74,6 +83,10 @@ function MusicTable() {
           </tr>
         </tbody>
       </Table>
+      <EditMusicModal
+        show={showEditMusicModal}
+        handleClose={handleCloseEditMusicModal}
+      />
       <ResponsivePagination
         current={currentPage}
         total={totalPages}

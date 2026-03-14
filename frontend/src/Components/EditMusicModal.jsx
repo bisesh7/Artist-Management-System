@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-function AddMusicModal({ show, handleClose }) {
+function EditMusicModal({ show, handleClose }) {
   const validationSchema = Yup.object({
     title: Yup.string()
       .min(1, "Title needs to be at least 1 character")
@@ -35,7 +35,7 @@ function AddMusicModal({ show, handleClose }) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Music</Modal.Title>
+          <Modal.Title>Edit Music</Modal.Title>
         </Modal.Header>
         <Form noValidate onSubmit={formik.handleSubmit}>
           <Modal.Body>
@@ -95,7 +95,7 @@ function AddMusicModal({ show, handleClose }) {
               Cancel
             </Button>
             <Button variant="primary" type="submit">
-              Create Music
+              Edit Music
             </Button>
           </Modal.Footer>
         </Form>
@@ -104,4 +104,4 @@ function AddMusicModal({ show, handleClose }) {
   );
 }
 
-export default AddMusicModal;
+export default EditMusicModal;
