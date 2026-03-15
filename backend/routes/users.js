@@ -96,4 +96,103 @@ router.post("/", (req, res) => {
   }
 });
 
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+  const query = "DELETE FROM user WHERE id = ?";
+
+  db.run(query, [id], function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  });
+});
+
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    fname,
+    lname,
+    email,
+    password,
+    confirmPassword,
+    dateOfBirth,
+    gender,
+    address,
+    phoneNumber,
+  } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  if (
+    !fname ||
+    !lname ||
+    !email ||
+    !dateOfBirth ||
+    !gender ||
+    !address ||
+    !phoneNumber ||
+    !password ||
+    !confirmPassword
+  ) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  let hashedPassword;
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match" });
+  }
+  hashedPassword = await bcrypt.hash(password, 10);
+
+  const query = `
+        UPDATE user
+        SET fname = ?, lname = ?, email = ?, password = ?, dob = ?, gender = ?, address = ?, phone = ?
+        WHERE id = ?
+    `;
+
+  const params = [
+    fname,
+    lname,
+    email,
+    hashedPassword,
+    dateOfBirth,
+    gender,
+    address,
+    phoneNumber,
+    id,
+  ];
+
+  db.run(query, params, function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({
+      message: "User updated successfully",
+      id,
+      fname,
+      lname,
+      email,
+      dateOfBirth,
+      gender,
+      address,
+      phoneNumber,
+    });
+  });
+});
+
 module.exports = router;
