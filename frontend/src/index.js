@@ -18,10 +18,9 @@ root.render(
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/users" element={<UsersComponent />} />
-        <Route path="/artists" element={<ArtistsComponent />} />
-        <Route path="/music/:artistId" element={<MusicComponent />} />
+        <Route path="/dashboard/users" element={<UsersComponent />} />
+        <Route path="/dashboard/artists" element={<ArtistsComponent />} />
+        <Route path="/dashboard/music/:artistId" element={<MusicComponent />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

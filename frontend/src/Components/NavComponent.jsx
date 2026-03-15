@@ -1,5 +1,5 @@
 import { Nav } from "react-bootstrap";
-import { FaPencilAlt, FaUsers } from "react-icons/fa";
+import { FaPencilAlt, FaUser, FaUsers } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/nav.module.scss";
@@ -19,9 +19,17 @@ const NavComponent = () => {
           className={classNames(styles.navLink, {
             "text-white": true,
           })}
+        >
+          <FaUser className="ms-5" />
+          &nbsp;Admin
+        </Nav.Link>
+        <Nav.Link
+          className={classNames(styles.navLink, {
+            "text-white": true,
+          })}
           eventKey="/users"
           onClick={() => {
-            navigate("/users");
+            navigate("/dashboard/users");
           }}
         >
           <FaUsers className="ms-5" />
@@ -32,7 +40,7 @@ const NavComponent = () => {
             "text-white": true,
           })}
           onClick={() => {
-            navigate("/artists");
+            navigate("/dashboard/artists");
           }}
           eventKey="/artists"
         >
