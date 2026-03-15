@@ -7,6 +7,9 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/Signup";
 import Dashboard from "./Pages/Dashboard.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ArtistsComponent from "./Pages/Artists.jsx";
+import MusicComponent from "./Pages/Music.jsx";
+import UsersComponent from "./Pages/Users.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,9 +19,9 @@ root.render(
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/users" element={<Dashboard />} />
-        <Route path="/artists" element={<Dashboard />} />
-        <Route path="/music/:artistId" element={<Dashboard />} />
+        <Route path="/users" element={<UsersComponent />} />
+        <Route path="/artists" element={<ArtistsComponent />} />
+        <Route path="/music/:artistId" element={<MusicComponent />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
