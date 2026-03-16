@@ -156,36 +156,56 @@ router.put("/:id", authMiddleware, async (req, res) => {
     !dateOfBirth ||
     !gender ||
     !address ||
-    !phoneNumber ||
-    !password ||
-    !confirmPassword
+    !phoneNumber
   ) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
-  let hashedPassword;
-  if (password !== confirmPassword) {
-    return res.status(400).json({ error: "Passwords do not match" });
-  }
-  hashedPassword = await bcrypt.hash(password, 10);
+  let query, params;
 
-  const query = `
+  let hashedPassword = null;
+  if (password) {
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Passwords do not match" });
+    }
+
+    hashedPassword = await bcrypt.hash(password, 10);
+
+    query = `
         UPDATE user
         SET fname = ?, lname = ?, email = ?, password = ?, dob = ?, gender = ?, address = ?, phone = ?
         WHERE id = ?
     `;
 
-  const params = [
-    fname,
-    lname,
-    email,
-    hashedPassword,
-    dateOfBirth,
-    gender,
-    address,
-    phoneNumber,
-    id,
-  ];
+    params = [
+      fname,
+      lname,
+      email,
+      hashedPassword,
+      dateOfBirth,
+      gender,
+      address,
+      phoneNumber,
+      id,
+    ];
+  } else {
+    query = `
+        UPDATE user
+        SET fname = ?, lname = ?, email = ?, dob = ?, gender = ?, address = ?, phone = ?
+        WHERE id = ?
+    `;
+
+    params = [
+      fname,
+      lname,
+      email,
+      dateOfBirth,
+      gender,
+      address,
+      phoneNumber,
+      id,
+    ];
+  }
 
   db.run(query, params, function (err) {
     if (err) {

@@ -22,6 +22,8 @@ function TableComponent({
     fetchUsers(currentPage);
   }, [currentPage]);
 
+  const [userToBeEdited, setUserToBeEdited] = useState(null);
+
   return (
     <>
       <Table striped>
@@ -55,7 +57,10 @@ function TableComponent({
                 <Button
                   variant="outline-primary"
                   size="sm"
-                  onClick={handleShowEditUserModal}
+                  onClick={() => {
+                    setUserToBeEdited(user);
+                    handleShowEditUserModal();
+                  }}
                 >
                   <FaUserEdit />
                 </Button>
@@ -70,6 +75,8 @@ function TableComponent({
       <EditUserModal
         show={showEditUserModal}
         handleClose={handleCloseEditUserModal}
+        user={userToBeEdited}
+        fetchUsers={fetchUsers}
       />
       <ResponsivePagination
         current={currentPage}
