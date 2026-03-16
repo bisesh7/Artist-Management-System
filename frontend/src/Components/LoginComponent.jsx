@@ -1,9 +1,17 @@
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import styles from "../Styles/auth.module.scss";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginComponent = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("danger");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email address")
@@ -21,11 +29,44 @@ const LoginComponent = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      loginUser(values);
     },
   });
 
+  const loginUser = async (values) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5002/api/auth/login",
+        values,
+      );
+      localStorage.setItem("token", response.data.token);
+      setMessage("Login successful! Redirecting to dashboard...");
+      setShowAlert(true);
+      setAlertVariant("success");
+      setTimeout(() => {
+        navigate("/dashboard/users");
+      }, 2000);
+    } catch (err) {
+      console.log(err);
+      if (err.response && err.response.data && err.response.data.error) {
+        setMessage(err.response.data.error);
+        setAlertVariant("danger");
+        setShowAlert(true);
+      }
+    }
+  };
+
   return (
     <div>
+      {showAlert && (
+        <Alert
+          variant={alertVariant}
+          onClose={() => setShowAlert(false)}
+          dismissible
+        >
+          {message}
+        </Alert>
+      )}
       <Form onSubmit={formik.handleSubmit}>
         <Form.Group className="mb-2">
           <Form.Control

@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = "secret";
 
 router.post("/login", (req, res) => {
+  console.log(req.body);
+
   const { email, password } = req.body;
 
   if (!email || !password) {
