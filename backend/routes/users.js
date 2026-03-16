@@ -12,14 +12,26 @@ router.get("/", authMiddleware, (req, res) => {
   limit = parseInt(limit) || 10;
   const offset = (page - 1) * limit;
 
-  db.all(
-    "SELECT * FROM user LIMIT ? OFFSET ?",
-    [limit, offset],
-    (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json(rows);
-    },
-  );
+  db.get("SELECT COUNT(*) AS count FROM user", [], (err, countRow) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    const total = countRow.count;
+    const totalPages = Math.ceil(total / limit);
+
+    db.all(
+      "SELECT * FROM user LIMIT ? OFFSET ?",
+      [limit, offset],
+      (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({
+          data: rows,
+          page,
+          totalPages,
+          totalRecords: total,
+        });
+      },
+    );
+  });
 });
 
 router.post("/", authMiddleware, (req, res) => {
