@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/db");
 const bcrypt = require("bcrypt");
+const authMiddleware = require("../middleware/auth");
 
 // Get all users
-router.get("/", (req, res) => {
+router.get("/", authMiddleware, (req, res) => {
   //Pagination
   let { page, limit } = req.query;
   page = parseInt(page) || 1;
@@ -21,7 +22,7 @@ router.get("/", (req, res) => {
   );
 });
 
-router.post("/", (req, res) => {
+router.post("/", authMiddleware, (req, res) => {
   const {
     fname,
     lname,
@@ -99,7 +100,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", authMiddleware, (req, res) => {
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({ error: "User ID is required" });
@@ -118,7 +119,7 @@ router.delete("/:id", (req, res) => {
   });
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
   const {
     fname,

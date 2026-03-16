@@ -9,7 +9,7 @@ const JWT_SECRET = "secret";
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !passsword) {
+  if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
   }
 

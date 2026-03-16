@@ -18,6 +18,8 @@ const PORT = 5002;
 //Routes
 const userRouter = require("./routes/users");
 app.use("/api/users", userRouter);
+const authRouter = require("./routes/auth");
+app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
