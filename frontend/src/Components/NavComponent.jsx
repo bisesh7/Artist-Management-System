@@ -4,9 +4,29 @@ import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/nav.module.scss";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 
 const NavComponent = () => {
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        setUser({ id: payload.id, email: payload.email });
+      } catch (error) {
+        console.error("Error parsing token:", error);
+      }
+    }
+  });
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/login");
+  };
 
   return (
     <>
@@ -21,7 +41,7 @@ const NavComponent = () => {
           })}
         >
           <FaUser className="ms-5" />
-          &nbsp;Admin
+          &nbsp;{user ? user.email : "Profile"}
         </Nav.Link>
         <Nav.Link
           className={classNames(styles.navLink, {
@@ -52,6 +72,9 @@ const NavComponent = () => {
             "text-white": true,
           })}
           eventKey="/logout"
+          onClick={() => {
+            handleLogout();
+          }}
         >
           <MdLogout className="ms-5" />
           &nbsp;Logout
