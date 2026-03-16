@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ArtistsComponent from "./Pages/Artists.jsx";
 import MusicComponent from "./Pages/Music.jsx";
 import UsersComponent from "./Pages/Users.jsx";
+import PrivateRoute from "./Pages/PrivateRoute.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,9 +18,30 @@ root.render(
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard/users" element={<UsersComponent />} />
-        <Route path="/dashboard/artists" element={<ArtistsComponent />} />
-        <Route path="/dashboard/music/:artistId" element={<MusicComponent />} />
+        <Route
+          path="/dashboard/users"
+          element={
+            <PrivateRoute>
+              <UsersComponent />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/artists"
+          element={
+            <PrivateRoute>
+              <ArtistsComponent />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/music/:artistId"
+          element={
+            <PrivateRoute>
+              <MusicComponent />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
