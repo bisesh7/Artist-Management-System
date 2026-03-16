@@ -6,6 +6,7 @@ import { FaUserEdit } from "react-icons/fa";
 import ResponsivePagination from "react-responsive-pagination";
 import EditUserModal from "./EditUserModal";
 import axios from "axios";
+import DeleteUserModal from "./DeleteUserModal";
 
 function TableComponent({
   currentPage,
@@ -23,6 +24,32 @@ function TableComponent({
   }, [currentPage]);
 
   const [userToBeEdited, setUserToBeEdited] = useState(null);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+  const handleShowDeleteModal = (user) => {
+    setUserToDelete(user);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setUserToDelete(null);
+    setShowDeleteModal(false);
+  };
+
+  const deleteUser = async (userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:5002/api/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchUsers(currentPage);
+    } catch (err) {
+      console.log("Error deleting user", err.response?.data || err.message);
+    }
+  };
 
   return (
     <>
@@ -54,19 +81,26 @@ function TableComponent({
               <td>{user.created_at}</td>
               <td>{user.updated_at}</td>
               <td>
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  onClick={() => {
-                    setUserToBeEdited(user);
-                    handleShowEditUserModal();
-                  }}
-                >
-                  <FaUserEdit />
-                </Button>
-                <Button variant="outline-danger" size="sm" className="ms-1">
-                  <AiOutlineDelete />
-                </Button>
+                <div className="d-flex justify-content-center">
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={() => {
+                      setUserToBeEdited(user);
+                      handleShowEditUserModal();
+                    }}
+                  >
+                    <FaUserEdit />
+                  </Button>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    className="ms-1"
+                    onClick={() => handleShowDeleteModal(user)}
+                  >
+                    <AiOutlineDelete />
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}
@@ -77,6 +111,12 @@ function TableComponent({
         handleClose={handleCloseEditUserModal}
         user={userToBeEdited}
         fetchUsers={fetchUsers}
+      />
+      <DeleteUserModal
+        showDeleteModal={showDeleteModal}
+        handleCloseDeleteModal={handleCloseDeleteModal}
+        userToDelete={userToDelete}
+        handleDeleteUser={deleteUser}
       />
       <ResponsivePagination
         current={currentPage}
