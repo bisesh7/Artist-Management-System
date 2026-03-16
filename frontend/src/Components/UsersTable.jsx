@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import ResponsivePagination from "react-responsive-pagination";
 import EditUserModal from "./EditUserModal";
+import axios from "axios";
 
-function TableComponent() {
-  const [currentPage, setCurrentPage] = useState(8);
-  const totalPages = 20;
-
+function TableComponent({
+  currentPage,
+  setCurrentPage,
+  totalPages,
+  fetchUsers,
+  users,
+}) {
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const handleCloseEditUserModal = () => setShowEditUserModal(false);
   const handleShowEditUserModal = () => setShowEditUserModal(true);
+
+  useEffect(() => {
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -32,67 +40,31 @@ function TableComponent() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <Button
-                variant="outline-primary"
-                size="sm"
-                onClick={handleShowEditUserModal}
-              >
-                <FaUserEdit />
-              </Button>
-              <Button variant="outline-danger" size="sm" className="ms-1">
-                <AiOutlineDelete />
-              </Button>
-            </td>
-          </tr>
-          <tr>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <Button variant="outline-primary" size="sm">
-                <FaUserEdit />
-              </Button>
-              <Button variant="outline-danger" size="sm" className="ms-1">
-                <AiOutlineDelete />
-              </Button>
-            </td>
-          </tr>
-          <tr>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <Button variant="outline-primary" size="sm">
-                <FaUserEdit />
-              </Button>
-              <Button variant="outline-danger" size="sm" className="ms-1">
-                <AiOutlineDelete />
-              </Button>
-            </td>
-          </tr>
+          {users.map((user) => (
+            <tr>
+              <td>{user.fname}</td>
+              <td>{user.lname}</td>
+              <td>{user.email}</td>
+              <td>{user.phone}</td>
+              <td>{user.dob}</td>
+              <td>{user.gender}</td>
+              <td>{user.address}</td>
+              <td>{user.created_at}</td>
+              <td>{user.updated_at}</td>
+              <td>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={handleShowEditUserModal}
+                >
+                  <FaUserEdit />
+                </Button>
+                <Button variant="outline-danger" size="sm" className="ms-1">
+                  <AiOutlineDelete />
+                </Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
       <EditUserModal
@@ -102,7 +74,7 @@ function TableComponent() {
       <ResponsivePagination
         current={currentPage}
         total={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </>
   );

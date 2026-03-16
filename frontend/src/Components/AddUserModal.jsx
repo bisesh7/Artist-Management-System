@@ -1,10 +1,16 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { Alert, Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import validationSchema from "../helpers/NewUserValidationSchema";
 import { useFormik } from "formik";
+import axios from "axios";
+import { useState } from "react";
 
-function AddUserModal({ show, handleClose }) {
+function AddUserModal({ show, handleClose, fetchUsers }) {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("danger");
+  const [message, setMessage] = useState("");
+
   const formik = useFormik({
     initialValues: {
       fname: "",
@@ -20,9 +26,34 @@ function AddUserModal({ show, handleClose }) {
     validationSchema,
     onSubmit: (values, { resetForm }) => {
       console.log(values);
+      createUser(values);
       resetForm();
     },
   });
+
+  const createUser = async (userData) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:5002/api/users",
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setMessage("User created successfully!");
+      setAlertVariant("success");
+      setShowAlert(true);
+      fetchUsers();
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error creating user");
+      setAlertVariant("danger");
+      setShowAlert(true);
+      console.error("Error creating user", err.response?.data || err.message);
+    }
+  };
 
   return (
     <>
@@ -32,6 +63,15 @@ function AddUserModal({ show, handleClose }) {
         </Modal.Header>
         <Form noValidate onSubmit={formik.handleSubmit}>
           <Modal.Body>
+            {showAlert && (
+              <Alert
+                variant={alertVariant}
+                onClose={() => setShowAlert(false)}
+                dismissible
+              >
+                {message}
+              </Alert>
+            )}
             <Row>
               <Col>
                 <Form.Group className="mb-2">

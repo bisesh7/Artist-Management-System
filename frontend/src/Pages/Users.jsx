@@ -5,11 +5,37 @@ import { useState } from "react";
 import AddUserModal from "../Components/AddUserModal";
 import styles from "../Styles/nav.module.scss";
 import NavComponent from "../Components/NavComponent";
+import axios from "axios";
 
 const UsersComponent = () => {
   const [showAddUsersModal, setShowAddUsersModal] = useState(false);
   const handleCloseAddUsersModal = () => setShowAddUsersModal(false);
   const handleShowAddUsersModal = () => setShowAddUsersModal(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = async (page = 1) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://localhost:5002/api/users?page=${page}&limit=5`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setUsers(res.data.data);
+      setTotalPages(res.data.totalPages);
+      setCurrentPage(res.data.page);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Row>
@@ -31,12 +57,19 @@ const UsersComponent = () => {
                   <AddUserModal
                     show={showAddUsersModal}
                     handleClose={handleCloseAddUsersModal}
+                    fetchUsers={fetchUsers}
                   />
                 </div>
               </Col>
             </Row>
 
-            <UsersTable />
+            <UsersTable
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+              fetchUsers={fetchUsers}
+              users={users}
+            />
           </div>
         </>
       </Col>

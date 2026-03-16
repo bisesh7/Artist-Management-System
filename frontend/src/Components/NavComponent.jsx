@@ -20,7 +20,7 @@ const NavComponent = () => {
         console.error("Error parsing token:", error);
       }
     }
-  });
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

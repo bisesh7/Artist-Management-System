@@ -10,6 +10,7 @@ import ArtistsComponent from "./Pages/Artists.jsx";
 import MusicComponent from "./Pages/Music.jsx";
 import UsersComponent from "./Pages/Users.jsx";
 import PrivateRoute from "./Pages/PrivateRoute.jsx";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
