@@ -1,8 +1,16 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import validationSchema from "../helpers/NewUserValidationSchema";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUpComponent = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("danger");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       fname: "",
@@ -18,13 +26,44 @@ const SignUpComponent = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      createUser(values);
     },
   });
+
+  const createUser = async (userData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5002/api/users",
+        userData,
+      );
+      setMessage("User created successfully!, Navigating to login...");
+      setAlertVariant("success");
+      setShowAlert(true);
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+      console.log("User created", response.data);
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error creating user");
+      setAlertVariant("danger");
+      setShowAlert(true);
+      console.error("Error creating user", err.response?.data || err.message);
+    }
+  };
 
   return (
     <div>
       <h1>Create Your Account</h1>
-
+      {showAlert && (
+        <Alert
+          variant={alertVariant}
+          onClose={() => setShowAlert(false)}
+          dismissible
+        >
+          {message}
+        </Alert>
+      )}
       <Form noValidate onSubmit={formik.handleSubmit}>
         <Row>
           <Col>

@@ -5,7 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/Signup";
-import Dashboard from "./Pages/Dashboard.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ArtistsComponent from "./Pages/Artists.jsx";
 import MusicComponent from "./Pages/Music.jsx";
@@ -16,7 +15,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard/users" element={<UsersComponent />} />
         <Route path="/dashboard/artists" element={<ArtistsComponent />} />

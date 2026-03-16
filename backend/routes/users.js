@@ -76,6 +76,9 @@ router.post("/", (req, res) => {
       function (err) {
         if (err) {
           console.error(err);
+          if (err.message.includes("UNIQUE")) {
+            return res.status(400).json({ error: "Email already exists" });
+          }
           return res.status(500).json({ error: "Database error" });
         }
         res.json({
