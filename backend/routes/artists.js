@@ -95,8 +95,16 @@ router.post("/", authMiddleware, (req, res) => {
 router.put("/:id", authMiddleware, (req, res) => {
   const { id } = req.params;
 
-  const { name, dateOfBirth, gender, address, firstReleaseYear, noOfAlbums } =
-    req.body;
+  console.log(req.body);
+
+  const {
+    name,
+    dateOfBirth,
+    gender,
+    address,
+    firstReleaseYear,
+    noOfAlbumsReleased,
+  } = req.body;
 
   const query = `
     UPDATE artist
@@ -110,7 +118,7 @@ router.put("/:id", authMiddleware, (req, res) => {
     gender,
     address,
     firstReleaseYear,
-    noOfAlbums,
+    noOfAlbumsReleased,
     id,
   ];
 

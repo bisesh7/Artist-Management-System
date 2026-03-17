@@ -37,6 +37,7 @@ function AddArtistModal({ show, handleClose, fetchArtists }) {
     onSubmit: (values, { resetForm }) => {
       createArtist(values);
       console.log(values);
+      resetForm();
     },
   });
 

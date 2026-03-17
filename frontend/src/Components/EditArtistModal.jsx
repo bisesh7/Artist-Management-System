@@ -1,10 +1,16 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { Alert, Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useState } from "react";
+import axios from "axios";
 
-function EditArtistModal({ show, handleClose }) {
+function EditArtistModal({ show, handleClose, artist, fetchArtists }) {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("danger");
+  const [message, setMessage] = useState("");
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(1, "Name needs to be at least 1 character")
@@ -19,20 +25,46 @@ function EditArtistModal({ show, handleClose }) {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      name: "",
-      dateOfBirth: "",
-      gender: "",
-      address: "",
-      firstReleaseYear: "",
-      noOfAlbumsReleased: "",
+      name: artist?.name || "",
+      dateOfBirth: artist?.dob || "",
+      gender: artist?.gender || "",
+      address: artist?.address || "",
+      firstReleaseYear: artist?.first_release_year || "",
+      noOfAlbumsReleased: artist?.no_of_albums || "",
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
       console.log(values);
-      resetForm();
+      editArtist({ ...values, id: artist.id });
     },
   });
+
+  const editArtist = async (artist) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.put(
+        `http://localhost:5002/api/artists/${artist.id}`,
+        artist,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      await fetchArtists();
+      setMessage("Artist edited successfully!");
+      setAlertVariant("success");
+      setShowAlert(true);
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error editing artist");
+      setAlertVariant("danger");
+      setShowAlert(true);
+      console.error("Error editing artist", err.response?.data || err.message);
+    }
+  };
 
   return (
     <>
@@ -42,6 +74,15 @@ function EditArtistModal({ show, handleClose }) {
         </Modal.Header>
         <Form noValidate onSubmit={formik.handleSubmit}>
           <Modal.Body>
+            {showAlert && (
+              <Alert
+                variant={alertVariant}
+                onClose={() => setShowAlert(false)}
+                dismissible
+              >
+                {message}
+              </Alert>
+            )}
             <Row>
               <Col>
                 <Form.Group className="mb-2">
