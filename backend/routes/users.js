@@ -34,7 +34,7 @@ router.get("/", authMiddleware, (req, res) => {
   });
 });
 
-router.post("/", authMiddleware, (req, res) => {
+router.post("/", (req, res) => {
   const {
     fname,
     lname,

@@ -41,7 +41,7 @@ const SignUpComponent = () => {
       setShowAlert(true);
 
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 2000);
       console.log("User created", response.data);
     } catch (err) {

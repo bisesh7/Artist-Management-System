@@ -1,6 +1,6 @@
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { FaPlus, FaSearch } from "react-icons/fa";
-import { use, useState } from "react";
+import { Button, Col, Row } from "react-bootstrap";
+import { FaPlus } from "react-icons/fa";
+import { useState } from "react";
 import MusicTable from "../Components/MusicTable";
 import AddMusicModal from "../Components/AddMusicModal";
 import styles from "../Styles/nav.module.scss";

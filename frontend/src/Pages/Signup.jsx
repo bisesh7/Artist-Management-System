@@ -32,7 +32,7 @@ const SignUp = () => {
           <div class="d-grid gap-2 mt-2">
             <Button
               onClick={() => {
-                navigate("/login");
+                navigate("/");
               }}
             >
               Login
