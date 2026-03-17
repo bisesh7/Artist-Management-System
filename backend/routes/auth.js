@@ -4,7 +4,7 @@ const db = require("../database/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/login", (req, res) => {
   console.log(req.body);
