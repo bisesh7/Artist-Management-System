@@ -7,6 +7,7 @@ import AddArtistModal from "../Components/AddArtistModal";
 import styles from "../Styles/nav.module.scss";
 import NavComponent from "../Components/NavComponent";
 import axios from "axios";
+import ImportArtistModal from "../Components/ImportArtistModal";
 
 const ArtistsComponent = () => {
   const [showAddArtistsModal, setShowAddArtistsModal] = useState(false);
@@ -64,6 +65,8 @@ const ArtistsComponent = () => {
     }
   };
 
+  const [showImportModal, setShowImportModal] = useState(false);
+
   return (
     <Row>
       <Col md="3" className={styles.sideNav}>
@@ -78,9 +81,19 @@ const ArtistsComponent = () => {
             <Row>
               <Col className="d-flex justify-content-end">
                 <div className="me-2">
-                  <Button variant="outline-dark">
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => {
+                      setShowImportModal(true);
+                    }}
+                  >
                     <IoDownload /> Import CSV
                   </Button>
+                  <ImportArtistModal
+                    show={showImportModal}
+                    handleClose={() => setShowImportModal(false)}
+                    fetchArtists={fetchArtists}
+                  />
                 </div>
                 <div className="me-2">
                   <Button variant="outline-dark" onClick={handleExportCSV}>

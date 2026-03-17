@@ -197,4 +197,57 @@ router.get("/export", authMiddleware, (req, res) => {
   });
 });
 
+router.post("/import", authMiddleware, upload.single("file"), (req, res) => {
+  const results = [];
+
+  fs.createReadStream(req.file.path)
+    .pipe(csv())
+    .on("data", (data) => {
+      results.push(data);
+    })
+    .on("end", () => {
+      const query = `
+          INSERT INTO artist (name, dob, gender, address, first_release_year, no_of_albums)
+          VALUES (?, ?, ?, ?, ?, ?)
+        `;
+
+      const stmt = db.prepare(query);
+
+      results.forEach((row) => {
+        stmt.run(
+          [
+            row.name,
+            row.dob,
+            row.gender,
+            row.address,
+            row.first_release_year,
+            row.no_of_albums,
+          ],
+          (err) => {
+            if (err) {
+              if (err.message.includes("UNIQUE")) {
+                console.log("Duplicate entry skipped: ", row.name);
+              } else {
+                console.log(
+                  "Error inserting row: ",
+                  err.message,
+                  " Row data: ",
+                  row,
+                );
+              }
+            }
+          },
+        );
+      });
+      stmt.finalize();
+
+      fs.unlinkSync(req.file.path);
+
+      res.json({
+        message: "CSV imported successfully",
+        total: results.length,
+      });
+    });
+});
+
 module.exports = router;
