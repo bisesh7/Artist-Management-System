@@ -1,10 +1,16 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { Alert, Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useState } from "react";
+import axios from "axios";
 
-function EditMusicModal({ show, handleClose }) {
+function EditMusicModal({ show, handleClose, music, fetchMusics }) {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("danger");
+  const [message, setMessage] = useState("");
+
   const validationSchema = Yup.object({
     title: Yup.string()
       .min(1, "Title needs to be at least 1 character")
@@ -19,17 +25,45 @@ function EditMusicModal({ show, handleClose }) {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
-      albumName: "",
-      genre: "",
+      title: music?.title,
+      albumName: music?.album_name,
+      genre: music?.genre,
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       console.log(values);
-      resetForm();
+      editMusic({ ...music, ...values });
     },
   });
+
+  const editMusic = async (music) => {
+    try {
+      const token = localStorage.getItem("token");
+      const newUser = music;
+
+      const response = await axios.put(
+        `http://localhost:5002/api/music/${music.id}`,
+        newUser,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setMessage("Music edited successfully!");
+      setAlertVariant("success");
+      setShowAlert(true);
+      fetchMusics();
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error editing music");
+      setAlertVariant("danger");
+      setShowAlert(true);
+      console.error("Error editing music", err.response?.data || err.message);
+    }
+  };
 
   return (
     <>
@@ -39,6 +73,15 @@ function EditMusicModal({ show, handleClose }) {
         </Modal.Header>
         <Form noValidate onSubmit={formik.handleSubmit}>
           <Modal.Body>
+            {showAlert && (
+              <Alert
+                variant={alertVariant}
+                onClose={() => setShowAlert(false)}
+                dismissible
+              >
+                {message}
+              </Alert>
+            )}
             <Form.Group className="mb-2">
               <Form.Control
                 type="text"
