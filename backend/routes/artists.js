@@ -164,7 +164,6 @@ router.delete("/:id", authMiddleware, (req, res) => {
 });
 
 router.get("/export", authMiddleware, (req, res) => {
-  console.log("Exporting artists to CSV");
   const query = "SELECT * FROM artist";
 
   db.all(query, [], (err, rows) => {
