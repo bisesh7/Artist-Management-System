@@ -1,16 +1,42 @@
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { Button, Col, Row } from "react-bootstrap";
+import { FaPlus } from "react-icons/fa";
 import ArtistsTable from "../Components/ArtistsTable";
 import { IoDownload } from "react-icons/io5";
 import { useState } from "react";
 import AddArtistModal from "../Components/AddArtistModal";
 import styles from "../Styles/nav.module.scss";
 import NavComponent from "../Components/NavComponent";
+import axios from "axios";
 
 const ArtistsComponent = () => {
   const [showAddArtistsModal, setShowAddArtistsModal] = useState(false);
   const handleCloseAddArtistsModal = () => setShowAddArtistsModal(false);
   const handleShowAddArtistsModal = () => setShowAddArtistsModal(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [artists, setArtists] = useState([]);
+
+  const fetchArtists = async (page = 1) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://localhost:5002/api/artists?page=${page}&limit=5`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setArtists(res.data.data);
+      setTotalPages(res.data.totalPages);
+      setCurrentPage(res.data.page);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Row>
@@ -42,12 +68,19 @@ const ArtistsComponent = () => {
                   <AddArtistModal
                     show={showAddArtistsModal}
                     handleClose={handleCloseAddArtistsModal}
+                    fetchArtists={fetchArtists}
                   />
                 </div>
               </Col>
             </Row>
 
-            <ArtistsTable />
+            <ArtistsTable
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+              fetchArtists={fetchArtists}
+              artists={artists}
+            />
           </div>
         </>
       </Col>

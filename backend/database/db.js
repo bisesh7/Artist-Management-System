@@ -30,6 +30,7 @@ db.serialize(() => {
       CREATE TABLE IF NOT EXISTS artist (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name varchar(255) NOT NULL,
+      dob datetime NOT NULL,
       gender text CHECK(gender IN ('m', 'f', 'o')),
       address varchar(255) NOT NULL,
       first_release_year year NOT NULL,

@@ -1,10 +1,16 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { Alert, Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useState } from "react";
+import axios from "axios";
 
-function AddArtistModal({ show, handleClose }) {
+function AddArtistModal({ show, handleClose, fetchArtists }) {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("danger");
+  const [message, setMessage] = useState("");
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(1, "Name needs to be at least 1 character")
@@ -29,10 +35,34 @@ function AddArtistModal({ show, handleClose }) {
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
+      createArtist(values);
       console.log(values);
-      resetForm();
     },
   });
+
+  const createArtist = async (artistData) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:5002/api/artists",
+        artistData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setMessage("Artist created successfully!");
+      setAlertVariant("success");
+      setShowAlert(true);
+      fetchArtists();
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error creating artist");
+      setAlertVariant("danger");
+      setShowAlert(true);
+      console.error("Error creating artist", err.response?.data || err.message);
+    }
+  };
 
   return (
     <>
@@ -42,6 +72,15 @@ function AddArtistModal({ show, handleClose }) {
         </Modal.Header>
         <Form noValidate onSubmit={formik.handleSubmit}>
           <Modal.Body>
+            {showAlert && (
+              <Alert
+                variant={alertVariant}
+                onClose={() => setShowAlert(false)}
+                dismissible
+              >
+                {message}
+              </Alert>
+            )}
             <Row>
               <Col>
                 <Form.Group className="mb-2">
