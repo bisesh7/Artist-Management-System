@@ -121,20 +121,21 @@ function EditArtistModal({ show, handleClose, artist, fetchArtists }) {
             </Row>
             <Row>
               <Col>
-                <Form.Group className="mb-2">
-                  <Form.Control
-                    type="text"
-                    placeholder="Gender"
-                    name="gender"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.gender}
-                    isInvalid={formik.touched.gender && formik.errors.gender}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.gender}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                <Form.Select
+                  name="gender"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.gender}
+                  isInvalid={formik.touched.gender && formik.errors.gender}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="m">Male</option>
+                  <option value="f">Female</option>
+                  <option value="o">Other</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.gender}
+                </Form.Control.Feedback>
               </Col>
               <Col>
                 <Form.Group className="mb-2">
