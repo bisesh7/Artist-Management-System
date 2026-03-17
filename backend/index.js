@@ -22,8 +22,8 @@ const authRouter = require("./routes/auth");
 app.use("/api/auth", authRouter);
 const artistRouter = require("./routes/artists");
 app.use("/api/artists", artistRouter);
-// const musicRouter = require("./routes/music");
-// app.use("/api/music", musicRouter);
+const musicRouter = require("./routes/music");
+app.use("/api/music", musicRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
