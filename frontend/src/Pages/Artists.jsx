@@ -38,6 +38,32 @@ const ArtistsComponent = () => {
     }
   };
 
+  const handleExportCSV = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("This is called");
+
+      const res = await axios.get(`http://localhost:5002/api/artists/export`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: "blob",
+      });
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "artists.csv");
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Export failed", err);
+    }
+  };
+
   return (
     <Row>
       <Col md="3" className={styles.sideNav}>
@@ -57,7 +83,7 @@ const ArtistsComponent = () => {
                   </Button>
                 </div>
                 <div className="me-2">
-                  <Button variant="outline-dark">
+                  <Button variant="outline-dark" onClick={handleExportCSV}>
                     <IoDownload /> Export CSV
                   </Button>
                 </div>

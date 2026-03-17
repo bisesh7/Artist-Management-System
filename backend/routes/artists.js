@@ -2,6 +2,13 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/db");
 const authMiddleware = require("../middleware/auth");
+const { Parser } = require("json2csv");
+const multer = require("multer");
+const csv = require("csv-parser");
+const fs = require("fs");
+const { log } = require("console");
+
+const upload = multer({ dest: "uploads/" });
 
 //Get all the artists
 router.get("/", authMiddleware, (req, res) => {
@@ -153,6 +160,41 @@ router.delete("/:id", authMiddleware, (req, res) => {
       return res.status(404).json({ error: "Artist not found" });
     }
     res.json({ message: "Artist deleted successfully" });
+  });
+});
+
+router.get("/export", authMiddleware, (req, res) => {
+  console.log("Exporting artists to CSV");
+  const query = "SELECT * FROM artist";
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    try {
+      const fields = [
+        "id",
+        "name",
+        "dob",
+        "gender",
+        "address",
+        "first_release_year",
+        "no_of_albums",
+        "created_at",
+        "updated_at",
+      ];
+
+      const parser = new Parser({ fields });
+      const csvData = parser.parse(rows);
+
+      res.header("Content-Type", "text/csv");
+      res.attachment("artists.csv");
+      return res.send(csvData);
+    } catch (err) {
+      return res.status(500).json({ error: "Error generating CSV" });
+    }
   });
 });
 
