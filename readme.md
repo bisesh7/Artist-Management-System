@@ -1,49 +1,68 @@
-Artist management system
+# Artist Management System
 
-Task given by Cloco inc.
+Task given by Cloco Inc.
 
-- Stack:
-- Frontend:
+## Stack
+
+Frontend:
+
 - React
-- React-Bootstrap for UI
-- Axios use for calling api
-- Formik & Yup for validation
+- React-Bootstrap
+- Axios
+- Formik & Yup
 
-- Backend:
+Backend:
+
 - Node.js
 - Express.js
 - SQLite
-- JWT is used for authentication
-- Multer used for file uploads
+- JWT Authentication
+- Multer
 
-Installation & Setup:
+## Installation
 
-- git clone https://github.com/bisesh7/Artist-Management-System
-- cd Artist-Management-System
+Clone the repository:
 
-Install Dependencies
+```
+git clone https://github.com/bisesh7/Artist-Management-System
+cd Artist-Management-System
+```
 
-Backend
+Install dependencies:
 
-- cd backend
-- npm install
+Backend:
 
-Frontend
+```
+cd backend
+npm install
+```
 
-- cd frontend
-- npm install
+Frontend:
 
-Run Application
+```
+cd frontend
+npm install
+```
 
-- Run Backend
-- cd backend
-- npm run dev
+## Run the app
 
-- Run Frontend
-- cd frontend
-- npm start
+Backend:
 
-- csv format for importing
+```
+cd backend
+npm run dev
+```
 
+Frontend:
+
+```
+cd frontend
+npm start
+```
+
+## CSV Format
+
+```
 name,dob,gender,address,first_release_year,no_of_albums
 John Doe,1990-05-12,m,123 Main St,2010,5
+```
